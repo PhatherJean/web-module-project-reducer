@@ -4,7 +4,14 @@ import "./App.css";
 
 import TotalDisplay from "./components/TotalDisplay";
 import CalcButton from "./components/CalcButton";
-import { applyNumber, changeOperation } from "./actions";
+import {
+  applyNumber,
+  changeOperation,
+  clearDisplay,
+  addMemory,
+  recallMemory,
+  clearMemory,
+} from "./actions";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -20,9 +27,23 @@ function App() {
 
   const selectOperation = (oper) => {
     dispatch(changeOperation(oper));
-    console.log(oper);
   };
 
+  const clearScreen = () => {
+    dispatch(clearDisplay());
+  };
+
+  const memory = (total) => {
+    dispatch(addMemory(total));
+  };
+
+  const recall = () => {
+    dispatch(recallMemory());
+  };
+
+  const clearMem = () => {
+    dispatch(clearMemory());
+  };
   return (
     <div className="App">
       <nav className="navbar navbar-dark bg-dark">
@@ -46,9 +67,9 @@ function App() {
             </div>
 
             <div className="row">
-              <CalcButton value={"M+"} />
-              <CalcButton value={"MR"} />
-              <CalcButton value={"MC"} />
+              <CalcButton onClick={() => memory(state.total)} value={"M+"} />
+              <CalcButton onClick={recall} value={"MR"} />
+              <CalcButton onClick={clearMem} value={"MC"} />
             </div>
 
             <div className="row">
@@ -76,7 +97,7 @@ function App() {
             </div>
 
             <div className="row ce_button">
-              <CalcButton value={"CE"} />
+              <CalcButton onClick={clearScreen} value={"CE"} />
             </div>
           </form>
         </div>
